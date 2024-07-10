@@ -1,26 +1,4 @@
-class Category:
-    total_categories = 0
-    total_unique_products = 0
-
-    def __init__(self, name: str, description: str):
-        self.name = name
-        self.description = description
-        self.products = []
-        Category.total_categories += 1
-
-    def add_product(self, product):
-        if not any(p.name == product.name for p in self.products):
-            Category.total_unique_products += 1
-        self.products.append(product)
-
-
-class Product:
-    def __init__(self, name: str, description: str, price: float, quantity: int):
-        self.name = name
-        self.description = description
-        self.price = price
-        self.quantity = quantity
-
+from src.shop import Category, Product
 
 # Пример создания объектов классов
 electronics = Category("Electronics", "Gadgets and devices")
@@ -43,7 +21,6 @@ for product in electronics.products:
         f"Product: {product.name}, Description: {product.description}, "
         f"Price: {product.price}, Quantity: {product.quantity}"
     )
-
 
 print(f"Total Categories: {Category.total_categories}")
 print(f"Total Unique Products: {Category.total_unique_products}")

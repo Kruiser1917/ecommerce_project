@@ -1,5 +1,5 @@
 import pytest
-from main import Category, Product  # Импортируйте ваши классы из основного файла
+from src.shop import Category, Product
 
 
 @pytest.fixture
@@ -43,7 +43,12 @@ def test_total_categories():
 def test_total_unique_products(category, product):
     initial_unique_products = Category.total_unique_products
     category.add_product(product)
-    new_product = Product("Smartphone", "A portable device", 499.99, 5)
+    new_product = Product(
+        "Smartphone",
+        "A portable device that combines mobile telephone and computing functions",
+        499.99,
+        5
+    )
     category.add_product(new_product)
     assert Category.total_unique_products == initial_unique_products + 2
 
