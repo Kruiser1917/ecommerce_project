@@ -5,22 +5,18 @@ class Category:
     def __init__(self, name: str, description: str):
         self.name = name
         self.description = description
-        self._products = []  # Приватный атрибут
+        self.__products = []  # Приватный атрибут
         Category.total_categories += 1
 
     def add_product(self, product):
-        if not any(p.name == product.name for p in self._products):
+        if not any(p.name == product.name for p in self.__products):
             Category.total_unique_products += 1
-        self._products.append(product)
+        self.__products.append(product)
 
     @property
     def products(self):
         return [f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
-                for product in self._products]
-
-    @classmethod
-    def create_product(cls, name: str, description: str, price: float, quantity: int):
-        return Product(name, description, price, quantity)
+                for product in self.__products]
 
 
 class Product:
@@ -45,5 +41,5 @@ class Product:
         del self._price
 
     @classmethod
-    def create_product(cls, name: str, description: str, price: float, quantity: int):
-        return cls(name, description, price, quantity)
+    def create_product(cls, **kwargs):
+        return cls(**kwargs)

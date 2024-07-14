@@ -20,8 +20,8 @@ def product():
 def test_category_initialization(category):
     assert category.name == "Electronics"
     assert category.description == "Gadgets and devices"
-    assert isinstance(category._products, list)
-    assert len(category._products) == 0
+    assert isinstance(category._Category__products, list)
+    assert len(category._Category__products) == 0
 
 
 def test_product_initialization(product):
@@ -34,8 +34,8 @@ def test_product_initialization(product):
 def test_add_product_to_category(category, product):
     initial_unique_products = Category.total_unique_products
     category.add_product(product)
-    assert len(category._products) == 1
-    assert category._products[0] == product
+    assert len(category._Category__products) == 1
+    assert category._Category__products[0] == product
     assert Category.total_unique_products == initial_unique_products + 1
 
 
@@ -45,7 +45,13 @@ def test_category_products_output(category, product):
 
 
 def test_create_product():
-    product = Product.create_product("Smartphone", "A portable device", 499.99, 5)
+    product_data = {
+        "name": "Smartphone",
+        "description": "A portable device",
+        "price": 499.99,
+        "quantity": 5
+    }
+    product = Product.create_product(**product_data)
     assert product.name == "Smartphone"
     assert product.description == "A portable device"
     assert product.price == 499.99
