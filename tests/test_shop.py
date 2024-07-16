@@ -75,5 +75,28 @@ def test_product_price_deleter(product):
         _ = product.price
 
 
+def test_product_str(product):
+    assert str(product) == "Laptop, 999.99 руб. Остаток: 10 шт."
+
+
+def test_category_str(category, product):
+    category.add_product(product)
+    assert str(category) == "Electronics, количество продуктов: 10 шт."
+
+
+def test_product_len(product):
+    assert len(product) == 10
+
+
+def test_category_len(category, product):
+    category.add_product(product)
+    assert len(category) == 10
+
+
+def test_product_add(product):
+    other_product = Product("Smartphone", "A portable device", 499.99, 5)
+    assert product + other_product == 999.99 * 10 + 499.99 * 5
+
+
 if __name__ == "__main__":
     pytest.main()
