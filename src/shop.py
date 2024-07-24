@@ -103,6 +103,8 @@ class Category:
         Category.total_categories += 1
 
     def add_product(self, product):
+        if product.quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         if not isinstance(product, AbstractProduct):
             raise TypeError("Можно добавлять только объекты типа Product или его наследники")
         if not any(p.name == product.name for p in self.__products):
@@ -115,6 +117,14 @@ class Category:
             f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
             for product in self.__products
         ]
+
+    def average_price(self):
+        try:
+            total_price = sum(product.price * product.quantity for product in self.__products)
+            total_quantity = sum(product.quantity for product in self.__products)
+            return total_price / total_quantity
+        except ZeroDivisionError:
+            return 0
 
     def __len__(self):
         return sum(product.quantity for product in self.__products)

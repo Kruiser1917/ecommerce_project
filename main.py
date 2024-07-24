@@ -35,9 +35,14 @@ smartphone = Smartphone(**smartphone_data)
 lawn_grass = LawnGrass(**lawn_grass_data)
 
 # Добавление продуктов в категорию
-electronics.add_product(laptop)
-electronics.add_product(smartphone)
-electronics.add_product(lawn_grass)
+try:
+    electronics.add_product(laptop)
+    electronics.add_product(smartphone)
+    electronics.add_product(lawn_grass)
+    zero_quantity_product = Product("Zero Quantity Product", "Product with zero quantity", 100, 0)
+    electronics.add_product(zero_quantity_product)
+except ValueError as e:
+    print(e)
 
 # Проверка созданных объектов и общего количества категорий и уникальных продуктов
 print(f"Category: {electronics.name}, Description: {electronics.description}")
@@ -58,3 +63,6 @@ except TypeError as e:
 
 total_value = laptop + Product("Another Laptop", "Another laptop description", 799.99, 5)
 print(f"Total value of products: {total_value} руб.")
+
+# Пример использования метода average_price
+print(f"Average price of products in category: {electronics.average_price()} руб.")

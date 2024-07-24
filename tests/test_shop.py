@@ -18,6 +18,11 @@ def product():
 
 
 @pytest.fixture
+def zero_quantity_product():
+    return Product("Zero Quantity Product", "Product with zero quantity", 100, 0)
+
+
+@pytest.fixture
 def smartphone():
     return Smartphone(
         "iPhone", "Apple smartphone", 799.99, 5, "High", "13 Pro", "256GB", "Black"
@@ -45,6 +50,28 @@ def test_product_initialization(product):
     assert product.quantity == 10
 
 
+def test_add_product_to_category(category, product):
+    initial_unique_products = Category.total_unique_products
+    category.add_product(product)
+    assert len(category._Category__products) == 1
+    assert category._Category__products[0] == product
+    assert Category.total_unique_products == initial_unique_products + 1
+
+
+def test_add_product_with_zero_quantity(category, zero_quantity_product):
+    with pytest.raises(ValueError):
+        category.add_product(zero_quantity_product)
+
+
+def test_category_average_price(category, product):
+    category.add_product(product)
+    assert category.average_price() == product.price
+
+
+def test_category_average_price_empty(category):
+    assert category.average_price() == 0
+
+
 def test_smartphone_initialization(smartphone):
     assert smartphone.name == "iPhone"
     assert smartphone.description == "Apple smartphone"
@@ -64,14 +91,6 @@ def test_lawn_grass_initialization(lawn_grass):
     assert lawn_grass.country_of_origin == "USA"
     assert lawn_grass.growth_time == "10 days"
     assert lawn_grass.color == "Green"
-
-
-def test_add_product_to_category(category, product):
-    initial_unique_products = Category.total_unique_products
-    category.add_product(product)
-    assert len(category._Category__products) == 1
-    assert category._Category__products[0] == product
-    assert Category.total_unique_products == initial_unique_products + 1
 
 
 def test_add_smartphone_to_category(category, smartphone):
